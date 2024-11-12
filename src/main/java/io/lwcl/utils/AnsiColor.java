@@ -16,14 +16,14 @@ public class AnsiColor {
     public static final String WHITE = "\033[37m";
 
     // Light Text Colors
-    public static final String LIGHT_BLACK = "\033[90m";
-    public static final String LIGHT_RED = "\033[91m";
-    public static final String LIGHT_GREEN = "\033[92m";
-    public static final String LIGHT_YELLOW = "\033[93m";
-    public static final String LIGHT_BLUE = "\033[94m";
-    public static final String LIGHT_MAGENTA = "\033[95m";
-    public static final String LIGHT_CYAN = "\033[96m";
-    public static final String LIGHT_WHITE = "\033[97m";
+    public static final String LI_BLACK = "\033[90m";
+    public static final String LI_RED = "\033[91m";
+    public static final String LI_GREEN = "\033[92m";
+    public static final String LI_YELLOW = "\033[93m";
+    public static final String LI_BLUE = "\033[94m";
+    public static final String LI_MAGENTA = "\033[95m";
+    public static final String LI_CYAN = "\033[96m";
+    public static final String LI_WHITE = "\033[97m";
 
     // Background Colors
     public static final String BLACK_BG = "\033[40m";
@@ -36,14 +36,14 @@ public class AnsiColor {
     public static final String WHITE_BG = "\033[47m";
 
     // Light Background Colors
-    public static final String LIGHT_BLACK_BG = "\033[100m";
-    public static final String LIGHT_RED_BG = "\033[101m";
-    public static final String LIGHT_GREEN_BG = "\033[102m";
-    public static final String LIGHT_YELLOW_BG = "\033[103m";
-    public static final String LIGHT_BLUE_BG = "\033[104m";
-    public static final String LIGHT_MAGENTA_BG = "\033[105m";
-    public static final String LIGHT_CYAN_BG = "\033[106m";
-    public static final String LIGHT_WHITE_BG = "\033[107m";
+    public static final String LI_BLACK_BG = "\033[100m";
+    public static final String LI_RED_BG = "\033[101m";
+    public static final String LI_GREEN_BG = "\033[102m";
+    public static final String LI_YELLOW_BG = "\033[103m";
+    public static final String LI_BLUE_BG = "\033[104m";
+    public static final String LI_MAGENTA_BG = "\033[105m";
+    public static final String LI_CYAN_BG = "\033[106m";
+    public static final String LI_WHITE_BG = "\033[107m";
 
 
     // Styles
