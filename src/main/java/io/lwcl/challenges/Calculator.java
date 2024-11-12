@@ -1,4 +1,4 @@
-package io.lwcl;
+package io.lwcl.challenges;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
