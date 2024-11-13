@@ -22,12 +22,8 @@ public class Calculator {
     public static void main(String[] args) {
         // Try-with-resource para AutoClose.
         try (Scanner scanner = new Scanner(System.in)) {
-            out.print("Enter the first number: ");
-            double firstNumber = readNumber(scanner);
-
-            out.print("Enter the second number: ");
-            double secondNumber = readNumber(scanner);
-
+            double firstNumber = readNumber(scanner, "Enter the first number: ");
+            double secondNumber = readNumber(scanner, "Enter the second number: ");
             OperatorType operator = readOperator(scanner);
 
             double result = perform(operator, firstNumber, secondNumber);
@@ -48,11 +44,13 @@ public class Calculator {
         };
     }
 
-    private static double readNumber(Scanner scanner) {
-        while (true) {
-            Double input = Helper.getInputDouble(scanner, null, null);
-            if (input != null) return input;
+    private static double readNumber(Scanner scanner, String prompt) {
+        Double input = null;
+        while (input == null) {
+            out.print(prompt);
+            input = Helper.getInputDouble(scanner, null, null);
         }
+        return input;
     }
 
     private static OperatorType readOperator(Scanner scanner) {
