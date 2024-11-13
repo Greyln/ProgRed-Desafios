@@ -88,7 +88,7 @@ public class Calculator {
                 return scanner.nextDouble();
             } catch (InputMismatchException e) {
                 out.println("Invalid number. Please enter a valid number.");
-                scanner.next(); // Clear the invalid input
+                scanner.next(); // Clear invalid input
             }
         }
     }

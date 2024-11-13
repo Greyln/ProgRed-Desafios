@@ -42,14 +42,14 @@ public class PassGen {
     public static void main(String[] args) {
         // Try-with-resources para AutoClose.
         try (Scanner scanner = new Scanner(System.in)) {
-            out.println("Bienvenido al generador de contraseñas.");
+            out.println("Bienvenido al generador de passwords.");
             out.println();
 
             PasswordConfig passCFG = getPassCFG(scanner);
             String chars = getChars(passCFG);
 
             if (chars.isEmpty()) {
-                out.println("No se han seleccionado caracteres validos para generar la contraseña.");
+                out.println("No se han seleccionado caracteres validos para generar la password.");
                 return;
             }
 
@@ -86,7 +86,7 @@ public class PassGen {
     public static PasswordConfig getPassCFG(Scanner scanner) {
         PasswordConfig cfg = new PasswordConfig();
 
-        out.printf("Cuantas contraseñas desea generar? (1-%d)", MAX_AMOUNT);
+        out.printf("Cuantas passwords desea generar? (1-%d)", MAX_AMOUNT);
         cfg.amount = getInputAmount(scanner, DEFAULT_AMOUNT, MAX_AMOUNT);
         out.println();
 
