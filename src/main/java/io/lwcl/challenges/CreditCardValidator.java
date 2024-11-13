@@ -44,30 +44,30 @@ public class CreditCardValidator {
             out.println("El numero de tarjeta de credito no es valido.");
         }
     }
-}
 
-interface LuhnAlgorithm {
+    public interface LuhnAlgorithm {
 
-    static boolean isValid(String number) {
-        int sum = 0;
-        boolean alter = false;
+        static boolean isValid(String number) {
+            int sum = 0;
+            boolean alter = false;
 
-        // Recorrer el número de derecha a izquierda
-        for (int i = number.length() - 1; i >= 0; i--) {
-            int digit = Character.getNumericValue(number.charAt(i));
+            // Recorrer el número de derecha a izquierda
+            for (int i = number.length() - 1; i >= 0; i--) {
+                int digit = Character.getNumericValue(number.charAt(i));
 
-            if (alter) {
-                digit *= 2;
-                if (digit > 9) {
-                    digit -= 9; // Sumar los dígitos del resultado
+                if (alter) {
+                    digit *= 2;
+                    if (digit > 9) {
+                        digit -= 9; // Sumar los dígitos del resultado
+                    }
                 }
+
+                sum += digit;
+                alter = !alter; // Alternar el estado
             }
 
-            sum += digit;
-            alter = !alter; // Alternar el estado
+            // El número es válido si la suma es un múltiplo de 10
+            return sum % 10 == 0;
         }
-
-        // El número es válido si la suma es un múltiplo de 10
-        return sum % 10 == 0;
     }
 }
