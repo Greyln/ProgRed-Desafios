@@ -2,7 +2,6 @@ package io.lwcl.challenges;
 
 import io.lwcl.utils.Helper;
 
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static java.lang.System.out;
@@ -19,75 +18,82 @@ public class UnitConverter {
         4. Muestre el resultado al usuario.
      */
 
+    enum Unit {
+        CELSIUS, FAHRENHEIT, EURO, DOLLAR
+    }
+    enum Conversion {
+        CELSIUS_TO_FAHRENHEIT(Unit.CELSIUS, Unit.FAHRENHEIT),
+        FAHRENHEIT_TO_CELSIUS(Unit.FAHRENHEIT, Unit.CELSIUS),
+        EURO_TO_DOLLAR(Unit.EURO, Unit.DOLLAR),
+        DOLLAR_TO_EURO(Unit.DOLLAR, Unit.EURO);
+
+        private final Unit from;
+        private final Unit to;
+
+        Conversion(Unit from, Unit to) {
+            this.from = from;
+            this.to = to;
+        }
+    }
+
+    public record DoubleUnit(Double value, Unit unit) {
+        @Override
+        public String toString() {
+            return String.format("%.3f (%s)", value, unit);
+        }
+    }
+
     private static final double EURO_TO_DOLLAR_RATE = 1.07;
     private static final double DOLLAR_TO_EURO_RATE = 0.94;
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-            int option = getConversionOption(scanner);
+            Conversion conversionType = getConversionOption(scanner);
+            if (conversionType == null) return;
+            DoubleUnit input = getValue(scanner, conversionType.from);
+            if (input.value == null) return;
+            DoubleUnit result = performConversion(input.value, conversionType);
+            if (result.value == null) return;
 
-            if (option == -1) return;
-
-            double value = getValue(scanner, option);
-            double result = performConversion(option, value);
-
-            displayResult(option, value, result);
+            out.printf("%s are %s", input, result);
         }
     }
 
-    private static int getConversionOption(Scanner scanner) {
-        out.println("Seleccione una conversion:");
-        out.println(" [1]. Celsius a Fahrenheit");
-        out.println(" [2]. Fahrenheit a Celsius");
-        out.println(" [3]. Euros a Dolares");
-        out.println(" [4]. Dolares a Euros");
+    private static Conversion getConversionOption(Scanner scanner) {
+        out.println("Select a conversion type:");
+        out.println(" [1]. Celsius to Fahrenheit");
+        out.println(" [2]. Fahrenheit to Celsius");
+        out.println(" [3]. Euros to Dollars");
+        out.println(" [4]. Dollars to Euros");
 
-        out.print("Ingrese el numero de la conversion que desea realizar");
-        return Helper.getInputInt(scanner, 4);
-    }
+        out.print("Input the option you want to perform");
+        Integer option = Helper.getInputInt(scanner, 1, 4);
 
-    private static double getValue(Scanner scanner, int option) {
-        out.print("Ingrese el valor en " + getUnitName(option) + ": ");
-        return scanner.nextDouble();
-    }
-
-    private static String getUnitName(int option) {
         return switch (option) {
-            case 1 -> "Celsius";
-            case 2 -> "Fahrenheit";
-            case 3 -> "Euros";
-            case 4 -> "Dolares";
-            default -> "valor";
+            case 1 -> Conversion.CELSIUS_TO_FAHRENHEIT;
+            case 2 -> Conversion.FAHRENHEIT_TO_CELSIUS;
+            case 3 -> Conversion.EURO_TO_DOLLAR;
+            case 4 -> Conversion.DOLLAR_TO_EURO;
+            case null, default -> null;
         };
+
     }
 
-    private static double performConversion(int option, double value) {
-        return switch (option) {
-            case 1 -> celsiusToFahrenheit(value);
-            case 2 -> fahrenheitToCelsius(value);
-            case 3 -> eurosToDollars(value);
-            case 4 -> dollarsToEuros(value);
-            default -> throw new IllegalArgumentException("Opcion no valida.");
-        };
+    private static DoubleUnit getValue(Scanner scanner, Unit unit) {
+        out.printf("Enter the value in (%s): ", unit);
+        Double result = Helper.getInputDouble(scanner, null, null);
+        return new DoubleUnit(result, unit);
     }
 
-    private static void displayResult(int option, double value, double result) {
-        switch (option) {
-            case 1:
-                out.printf("%.2f Celsius son %.2f Fahrenheit.%n", value, result);
-                break;
-            case 2:
-                out.printf("%.2f Fahrenheit son %.2f Celsius.%n", value, result);
-                break;
-            case 3:
-                out.printf("%.2f Euros son %.2f Dolares.%n", value, result);
-                break;
-            case 4:
-                out.printf("%.2f Dolares son %.2f Euros.%n", value, result);
-                break;
-            default:
-                out.println("Opcion no valida. Por favor, seleccione una opcion entre 1 y 4.");
-        }
+
+    private static DoubleUnit performConversion(Double value, Conversion type) {
+        double result = switch (type) {
+            case CELSIUS_TO_FAHRENHEIT -> celsiusToFahrenheit(value);
+            case FAHRENHEIT_TO_CELSIUS -> fahrenheitToCelsius(value);
+            case EURO_TO_DOLLAR -> eurosToDollars(value);
+            case DOLLAR_TO_EURO -> dollarsToEuros(value);
+        };
+        return new DoubleUnit(result, type.to);
     }
 
     public static double celsiusToFahrenheit(double celsius) {
