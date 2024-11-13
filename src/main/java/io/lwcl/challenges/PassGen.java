@@ -36,37 +36,49 @@ public class PassGen {
 
     private static final int DEFAULT_LENGTH = 12;
     private static final int DEFAULT_AMOUNT = 3;
+    private static final int MAX_LENGTH = 128;
+    private static final int MAX_AMOUNT = 100;
 
     public static void main(String[] args) {
         // Try-with-resources para AutoClose.
         try (Scanner scanner = new Scanner(System.in)) {
             out.println("Bienvenido al generador de contraseñas.");
+            out.println();
 
             PasswordConfig passCFG = getPassCFG(scanner);
             String chars = getChars(passCFG);
 
+            if (chars.isEmpty()) {
+                out.println("No se han seleccionado caracteres validos para generar la contraseña.");
+                return;
+            }
+
+            out.println("Generando...");
+
             for (int i = 0; i < passCFG.amount; i++) {
                 String password = genPassword(passCFG.length, chars);
-                out.println("Contraseña generada: " + password);
+                out.println("["+ i +"]: " + password);
             }
         }
     }
 
     private static boolean getYesNoInput(Scanner scanner, String prompt) {
         out.print(prompt);
-        boolean answer = scanner.next().equalsIgnoreCase("S");
-        out.println();
-        return answer;
+        return scanner.next().trim().equalsIgnoreCase("S");
     }
 
-    private static int getInputAmount(Scanner scanner, String prompt, int defaultValue) {
-        out.print(prompt);
-
+    private static int getInputAmount(Scanner scanner, int defaultValue, int maxValue) {
+        out.print(": ");
         try {
-            return scanner.nextInt();
+            int value = scanner.nextInt();
+            if (value < 1 || value > maxValue) {
+                out.println("Valor fuera de rango. Utilizando cantidad predeterminada: " + defaultValue);
+                return defaultValue;
+            }
+            return value;
         } catch (NoSuchElementException | IllegalArgumentException e) {
-            out.println("Utilizando cantidad predeterminada: " + defaultValue);
-            scanner.nextLine(); // Clear the invalid input
+            out.println("Entrada invalida. Utilizando cantidad predeterminada: " + defaultValue);
+            scanner.nextLine(); // Clear invalid input
             return defaultValue;
         }
     }
@@ -74,23 +86,33 @@ public class PassGen {
     public static PasswordConfig getPassCFG(Scanner scanner) {
         PasswordConfig cfg = new PasswordConfig();
 
-        cfg.amount = getInputAmount(scanner, "Cuantas contraseñas desea generar? ", DEFAULT_AMOUNT);
-        cfg.length = getInputAmount(scanner, "Que tamaño de caracteres desea? ", DEFAULT_LENGTH);
+        out.printf("Cuantas contraseñas desea generar? (1-%d)", MAX_AMOUNT);
+        cfg.amount = getInputAmount(scanner, DEFAULT_AMOUNT, MAX_AMOUNT);
+        out.println();
+
+        out.printf("Longitud de los caracteres? (1-%d)", MAX_LENGTH);
+        cfg.length = getInputAmount(scanner, DEFAULT_LENGTH, MAX_LENGTH);
+        out.println();
 
         out.print("Desea configurar los tipos de caracteres (S/N)? ");
         boolean toggleChars = scanner.next().equalsIgnoreCase("S");
+        out.println();
 
         if (toggleChars) {
             cfg.useUpperCase = getYesNoInput(scanner, "Desea incluir mayusculas (S/N)? ");
             cfg.useLowerCase = getYesNoInput(scanner, "Desea incluir minusculas (S/N)? ");
             cfg.useNumbers = getYesNoInput(scanner, "Desea incluir numeros (S/N)? ");
-
+            out.println();
             out.println("Especiales: " + CHARS_SYMBOLS + CHARS_AMBIGUOUS);
             cfg.useSymbols = getYesNoInput(scanner, "Desea incluir caracteres especiales (S/N)? ");
-            out.println("Ambiguos: " + CHARS_AMBIGUOUS);
-            cfg.notAmbiguous = getYesNoInput(scanner, "Desea excluir caracteres ambiguos (S/N)? ");
+            if (cfg.useSymbols) {
+                out.println("Ambiguos: " + CHARS_AMBIGUOUS);
+                cfg.notAmbiguous = getYesNoInput(scanner, "Desea excluir caracteres ambiguos (S/N)? ");
+                out.println();
+            }
             out.println("Similares: " + CHARS_SIMILAR);
             cfg.notSimilar = getYesNoInput(scanner, "Desea excluir caracteres similares (S/N)? ");
+            out.println();
         }
         return cfg;
     }
