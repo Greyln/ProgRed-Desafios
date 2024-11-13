@@ -98,7 +98,7 @@ public class UnitConverter {
     public record DoubleUnit(Double value, Unit unit) {
         @Override
         public String toString() {
-            return String.format("%.3f (%s)", value, unit);
+            return String.format("%.2f (%s)", value, unit);
         }
     }
 
