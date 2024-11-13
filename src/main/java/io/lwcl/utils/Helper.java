@@ -13,7 +13,8 @@ public class Helper {
 
     public static Boolean getYesNoInput(Scanner scanner, String prompt) {
         out.print(prompt);
-        return scanner.next().trim().equalsIgnoreCase("S");
+        String answer = scanner.next().trim().toUpperCase();
+        return answer.matches("(Y|S|YES|SI)");
     }
 
     public static Integer getInputInt(Scanner scanner, Integer minValue, Integer maxValue) {
@@ -53,7 +54,7 @@ public class Helper {
         try {
             double value = scanner.nextDouble();
             if (minValue != null && maxValue != null && (value < minValue || value > maxValue)) {
-                    out.printf("Value out of range. Enter a number between %d and %d.", minValue, maxValue);
+                    out.printf("Value out of range. Enter a number between %f and %f.", minValue, maxValue);
                     out.println();
                     return null;
                 }
