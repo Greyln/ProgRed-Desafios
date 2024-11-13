@@ -34,8 +34,8 @@ public class PassGen {
         int amount = getInputAmount(scanner, "Cuantas contraseñas desea generar? ", DEFAULT_AMOUNT);
         int length = getInputAmount(scanner, "Que tamaño de caracteres desea? ", DEFAULT_LENGTH);
 
-        boolean[] charOptions = getCharacterOptions(scanner);
-        String chars = getChars(charOptions[0], charOptions[1], charOptions[2], charOptions[3], charOptions[4], charOptions[5]);
+        PasswordConfig passCFG = getCharacterOptions(scanner);
+        String chars = getChars(passCFG);
 
         for (int i = 0; i < amount; i++) {
             String password = genPassword(length, chars);
@@ -47,7 +47,9 @@ public class PassGen {
 
     private static boolean getYesNoInput(Scanner scanner, String prompt) {
         out.print(prompt);
-        return scanner.next().equalsIgnoreCase("S");
+        boolean answer = scanner.next().equalsIgnoreCase("S");
+        out.println();
+        return answer;
     }
 
     private static int getInputAmount(Scanner scanner, String prompt, int defaultValue) {
@@ -62,47 +64,40 @@ public class PassGen {
         }
     }
 
-    private static boolean[] getCharacterOptions(Scanner scanner) {
-        boolean[] options = new boolean[6];
-        
-        options[0] = true;
-        options[1] = true;
-        options[2] = true;
-        options[3] = true;
-        options[4] = false;
-        options[5] = false;
+    private static PasswordConfig getCharacterOptions(Scanner scanner) {
+        PasswordConfig options = new PasswordConfig();
 
         out.print("Desea configurar los tipos de caracteres (S/N)? ");
         boolean toggleChars = scanner.next().equalsIgnoreCase("S");
 
         if (toggleChars) {
-            options[0] = getYesNoInput(scanner, "Desea incluir mayusculas (S/N)? ");
-            options[1] = getYesNoInput(scanner, "Desea incluir minusculas (S/N)? ");
-            options[2] = getYesNoInput(scanner, "Desea incluir numeros (S/N)? ");
+            options.useUpperCase = getYesNoInput(scanner, "Desea incluir mayusculas (S/N)? ");
+            options.useLowerCase = getYesNoInput(scanner, "Desea incluir minusculas (S/N)? ");
+            options.useNumbers = getYesNoInput(scanner, "Desea incluir numeros (S/N)? ");
             out.println("Especiales: " + CHARS_SYMBOLS + CHARS_AMBIGUOUS);
-            options[3] = getYesNoInput(scanner, "Desea incluir caracteres especiales (S/N)? ");
+            options.useSymbols = true; getYesNoInput(scanner, "Desea incluir caracteres especiales (S/N)? ");
             out.println("Ambiguos: " + CHARS_AMBIGUOUS);
-            options[4] = getYesNoInput(scanner, "Desea excluir caracteres ambiguos (S/N)? ");
+            options.notAmbiguous = getYesNoInput(scanner, "Desea excluir caracteres ambiguos (S/N)? ");
             out.println("Similares: " + CHARS_SIMILAR);
-            options[5] = getYesNoInput(scanner, "Desea excluir caracteres similares (S/N)? ");
+            options.notSimilar = getYesNoInput(scanner, "Desea excluir caracteres similares (S/N)? ");
         }
         return options;
     }
 
-    public static String getChars(boolean upperCase, boolean lowerCase, boolean numbers, boolean symbols, boolean notAmbiguous, boolean notSimilar) {
+    public static String getChars(PasswordConfig passCFG) {
         StringBuilder chars = new StringBuilder();
 
-        if (upperCase) chars.append(CHARS_UPPERCASE);
-        if (lowerCase) chars.append(CHARS_LOWERCASE);
-        if (numbers) chars.append(CHARS_NUMBERS);
-        if (symbols) {
+        if (passCFG.useUpperCase) chars.append(CHARS_UPPERCASE);
+        if (passCFG.useLowerCase) chars.append(CHARS_LOWERCASE);
+        if (passCFG.useNumbers) chars.append(CHARS_NUMBERS);
+        if (passCFG.useSymbols) {
             chars.append(CHARS_SYMBOLS);
-            if (!notAmbiguous) chars.append(CHARS_AMBIGUOUS);
+            if (!passCFG.notAmbiguous) chars.append(CHARS_AMBIGUOUS);
         }
 
         String result = chars.toString();
 
-        if (notSimilar) {
+        if (passCFG.notSimilar) {
             result = result.replaceAll("[" + CHARS_SIMILAR + "]", "");
         }
         return result;
@@ -119,4 +114,16 @@ public class PassGen {
         return password.toString();
 
     }
+}
+
+class PasswordConfig {
+    boolean useUpperCase = true;
+    boolean useLowerCase = true;
+    boolean useNumbers = true;
+    boolean useSymbols = true;
+    boolean notAmbiguous = false;
+    boolean notSimilar = false;
+
+    int length = 12;
+    int amount = 3;
 }
