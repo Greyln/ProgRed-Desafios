@@ -16,18 +16,19 @@ public class Helper {
         return scanner.next().trim().equalsIgnoreCase("S");
     }
 
-    public static Integer getInputInt(Scanner scanner, Integer maxValue) {
+    public static Integer getInputInt(Scanner scanner, Integer minValue, Integer maxValue) {
         out.print(": ");
         try {
             int value = scanner.nextInt();
             if (maxValue != null && (value < 1 || value > maxValue)) {
-                out.println("Valor fuera de rango. Ingrese un numero entre 1 y " + maxValue);
+                out.printf("Value out of range. Enter a number between %d and %d.", minValue, maxValue);
+                out.println();
                 return null;
             }
 
             return value;
         } catch (NoSuchElementException | IllegalArgumentException e) {
-            out.println("Entrada invalida. Por favor, ingrese un numero.");
+            out.println("Invalid entry. Please enter a number.");
             scanner.nextLine(); // Clear invalid input
             return null;
         }
@@ -38,29 +39,30 @@ public class Helper {
         try {
             int value = scanner.nextInt();
             if (maxValue != null && (value < 1 || value > maxValue)) {
-                out.println("Valor fuera de rango. Utilizando cantidad predeterminada: " + defaultValue);
+                out.println("Value out of range. Using default amount: " + defaultValue);
                 return defaultValue;
             }
 
             return value;
         } catch (NoSuchElementException | IllegalArgumentException e) {
-            out.println("Entrada invalida. Utilizando cantidad predeterminada: " + defaultValue);
+            out.println("Invalid entry. Using default amount: " + defaultValue);
             scanner.nextLine(); // Clear invalid input
             return defaultValue;
         }
     }
 
-    public static Double getInputDouble(Scanner scanner, Double maxValue) {
+    public static Double getInputDouble(Scanner scanner, Double minValue, Double maxValue) {
         out.print(": ");
         try {
             double value = scanner.nextDouble();
             if (maxValue != null && (value < 1 || value > maxValue)) {
-                out.println("Valor fuera de rango. Ingrese un numero entre 1 y " + maxValue);
+                out.printf("Value out of range. Enter a number between %d and %d.", minValue, maxValue);
+                out.println();
                 return null;
             }
             return value;
         } catch (NoSuchElementException | IllegalArgumentException e) {
-            out.println("Entrada invalida. Por favor, ingrese un numero.");
+            out.println("Invalid entry. Please enter a number.");
             scanner.nextLine(); // Clear invalid input
             return null;
         }
