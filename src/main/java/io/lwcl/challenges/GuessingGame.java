@@ -76,7 +76,7 @@ public class GuessingGame {
             out.println("El numero es menor. Intenta de nuevo.");
             return false;
         } else {
-            out.println(AnsiColor.LIGHT_GREEN + "Felicidades! Adivinaste el numero: " + randomNumber);
+            out.println("Felicidades! Adivinaste el numero: " + randomNumber);
             return true;
         }
     }
