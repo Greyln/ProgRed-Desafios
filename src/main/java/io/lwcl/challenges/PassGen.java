@@ -1,9 +1,10 @@
 package io.lwcl.challenges;
 
 import java.security.SecureRandom;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import static io.lwcl.utils.Helper.getInputAmount;
+import static io.lwcl.utils.Helper.getYesNoInput;
 import static java.lang.System.out;
 
 public class PassGen {
@@ -54,32 +55,12 @@ public class PassGen {
             }
 
             out.println("Generando...");
+            out.println();
 
             for (int i = 0; i < passCFG.amount; i++) {
                 String password = genPassword(passCFG.length, chars);
                 out.println("["+ i +"]: " + password);
             }
-        }
-    }
-
-    private static boolean getYesNoInput(Scanner scanner, String prompt) {
-        out.print(prompt);
-        return scanner.next().trim().equalsIgnoreCase("S");
-    }
-
-    private static int getInputAmount(Scanner scanner, int defaultValue, int maxValue) {
-        out.print(": ");
-        try {
-            int value = scanner.nextInt();
-            if (value < 1 || value > maxValue) {
-                out.println("Valor fuera de rango. Utilizando cantidad predeterminada: " + defaultValue);
-                return defaultValue;
-            }
-            return value;
-        } catch (NoSuchElementException | IllegalArgumentException e) {
-            out.println("Entrada invalida. Utilizando cantidad predeterminada: " + defaultValue);
-            scanner.nextLine(); // Clear invalid input
-            return defaultValue;
         }
     }
 

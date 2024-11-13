@@ -1,5 +1,7 @@
 package io.lwcl.challenges;
 
+import io.lwcl.utils.Helper;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -84,12 +86,8 @@ public class Calculator {
 
     private static double readNumber(Scanner scanner) {
         while (true) {
-            try {
-                return scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                out.println("Invalid number. Please enter a valid number.");
-                scanner.next(); // Clear invalid input
-            }
+            Double input = Helper.getInputDouble(scanner, null);
+            if (input != null) return input;
         }
     }
 
