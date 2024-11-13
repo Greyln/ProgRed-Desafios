@@ -67,35 +67,41 @@ public class PassGen {
     public static PasswordConfig getPassCFG(Scanner scanner) {
         PasswordConfig cfg = new PasswordConfig();
 
-        out.printf("Cuantas passwords desea generar? (1-%d): ", MAX_AMOUNT);
+        out.printf("How many passwords do you want to generate? (1-%d): ", MAX_AMOUNT);
         cfg.amount = getInputAmount(scanner, DEFAULT_AMOUNT, MAX_AMOUNT);
         out.println();
 
-        out.printf("Longitud de los caracteres? (1-%d): ", MAX_LENGTH);
+        out.printf("Character length? (1-%d): ", MAX_LENGTH);
         cfg.length = getInputAmount(scanner, DEFAULT_LENGTH, MAX_LENGTH);
         out.println();
 
-        out.print("Desea configurar los tipos de caracteres (S/N)? ");
-        boolean toggleChars = scanner.next().equalsIgnoreCase("S");
+        boolean toggleChars = getYesNoInput(scanner, "Do you want to select the character types (Y/N)? ");
         out.println();
 
-        if (toggleChars) {
-            cfg.useUpperCase = getYesNoInput(scanner, "Desea incluir mayusculas (S/N)? ");
-            cfg.useLowerCase = getYesNoInput(scanner, "Desea incluir minusculas (S/N)? ");
-            cfg.useNumbers = getYesNoInput(scanner, "Desea incluir numeros (S/N)? ");
-            out.println();
-            out.println("Especiales: " + CHARS_SYMBOLS + CHARS_AMBIGUOUS);
-            cfg.useSymbols = getYesNoInput(scanner, "Desea incluir caracteres especiales (S/N)? ");
-            if (cfg.useSymbols) {
-                out.println("Ambiguos: " + CHARS_AMBIGUOUS);
-                cfg.notAmbiguous = getYesNoInput(scanner, "Desea excluir caracteres ambiguos (S/N)? ");
-                out.println();
-            }
-            out.println("Similares: " + CHARS_SIMILAR);
-            cfg.notSimilar = getYesNoInput(scanner, "Desea excluir caracteres similares (S/N)? ");
+        if (toggleChars) configCharTypes(scanner, cfg);
+
+        return cfg;
+    }
+
+    private static void configCharTypes(Scanner scanner, PasswordConfig cfg) {
+        cfg.useUpperCase = getYesNoInput(scanner, "Do you want to include capital letters? (Y/N)? ");
+        cfg.useLowerCase = getYesNoInput(scanner, "Do you want to include lowercase letters (Y/N)? ");
+        cfg.useNumbers = getYesNoInput(scanner, "Do you want to include numbers (Y/N)? ");
+        out.println();
+
+        out.println("Especiales: " + CHARS_SYMBOLS + CHARS_AMBIGUOUS);
+        cfg.useSymbols = getYesNoInput(scanner, "Do you want to include special characters (Y/N)? ");
+        out.println();
+
+        if (cfg.useSymbols) {
+            out.println("Ambiguos: " + CHARS_AMBIGUOUS);
+            cfg.notAmbiguous = getYesNoInput(scanner, "Do you want to exclude ambiguous characters (Y/N)? ");
             out.println();
         }
-        return cfg;
+
+        out.println("Similares: " + CHARS_SIMILAR);
+        cfg.notSimilar = getYesNoInput(scanner, "Do you want to exclude similar characters (Y/N)? ");
+        out.println();
     }
 
     public static String getChars(PasswordConfig passCFG) {
