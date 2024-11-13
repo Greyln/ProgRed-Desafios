@@ -1,5 +1,6 @@
 package io.lwcl.challenges;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static java.lang.System.out;
@@ -22,6 +23,9 @@ public class UnitConverter {
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             int option = getConversionOption(scanner);
+
+            if (option == -1) return;
+
             double value = getValue(scanner, option);
             double result = performConversion(option, value);
 
@@ -37,7 +41,25 @@ public class UnitConverter {
         out.println(" [4]. Dolares a Euros");
 
         out.print("Ingrese el numero de la conversion que desea realizar: ");
-        return scanner.nextInt();
+        try {
+            int option = scanner.nextInt();
+            if (option < 1 || option > 4) {
+                out.println("Opcion no valida. Por favor, ingrese un numero entre 1 y 4.");
+                return -1;
+            }
+            return option;
+        } catch (NoSuchElementException | IllegalArgumentException e) {
+            out.println("Entrada invalida. Por favor, ingrese un numero entre 1 y 4.");
+            return -1;
+        }
+    }
+
+    private static int getInteger(Scanner scanner) {
+        try {
+            return scanner.nextInt();
+        } catch (NoSuchElementException | IllegalArgumentException e) {
+            out.println("Entrada invalida. Por favor, ingrese un numero.");
+        }
     }
 
     private static double getValue(Scanner scanner, int option) {
