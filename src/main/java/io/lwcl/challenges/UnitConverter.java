@@ -16,32 +16,7 @@ public class UnitConverter {
         2. Pida al usuario que ingrese un valor en la unidad seleccionada.
         3. Realice la conversión de unidades utilizando una fórmula específica.
         4. Muestre el resultado al usuario.
-     */
-
-    enum Unit {
-        CELSIUS, FAHRENHEIT, EURO, DOLLAR
-    }
-    enum Conversion {
-        CELSIUS_TO_FAHRENHEIT(Unit.CELSIUS, Unit.FAHRENHEIT),
-        FAHRENHEIT_TO_CELSIUS(Unit.FAHRENHEIT, Unit.CELSIUS),
-        EURO_TO_DOLLAR(Unit.EURO, Unit.DOLLAR),
-        DOLLAR_TO_EURO(Unit.DOLLAR, Unit.EURO);
-
-        private final Unit from;
-        private final Unit to;
-
-        Conversion(Unit from, Unit to) {
-            this.from = from;
-            this.to = to;
-        }
-    }
-
-    public record DoubleUnit(Double value, Unit unit) {
-        @Override
-        public String toString() {
-            return String.format("%.3f (%s)", value, unit);
-        }
-    }
+    */
 
     private static final double EURO_TO_DOLLAR_RATE = 1.07;
     private static final double DOLLAR_TO_EURO_RATE = 0.94;
@@ -50,12 +25,15 @@ public class UnitConverter {
         try (Scanner scanner = new Scanner(System.in)) {
             Conversion conversionType = getConversionOption(scanner);
             if (conversionType == null) return;
+
             DoubleUnit input = getValue(scanner, conversionType.from);
             if (input.value == null) return;
+
             DoubleUnit result = performConversion(input.value, conversionType);
             if (result.value == null) return;
 
             out.printf("%s are %s", input, result);
+            out.println();
         }
     }
 
@@ -66,7 +44,7 @@ public class UnitConverter {
         out.println(" [3]. Euros to Dollars");
         out.println(" [4]. Dollars to Euros");
 
-        out.print("Input the option you want to perform");
+        out.print("Input the option you want to perform: ");
         Integer option = Helper.getInputInt(scanner, 1, 4);
 
         return switch (option) {
@@ -85,15 +63,9 @@ public class UnitConverter {
         return new DoubleUnit(result, unit);
     }
 
-
-    private static DoubleUnit performConversion(Double value, Conversion type) {
-        double result = switch (type) {
-            case CELSIUS_TO_FAHRENHEIT -> celsiusToFahrenheit(value);
-            case FAHRENHEIT_TO_CELSIUS -> fahrenheitToCelsius(value);
-            case EURO_TO_DOLLAR -> eurosToDollars(value);
-            case DOLLAR_TO_EURO -> dollarsToEuros(value);
-        };
-        return new DoubleUnit(result, type.to);
+    private static DoubleUnit performConversion(Double value, Conversion conversionType) {
+        double result = conversionType.convert(value);
+        return new DoubleUnit(result, conversionType.to);
     }
 
     public static double celsiusToFahrenheit(double celsius) {
@@ -110,5 +82,44 @@ public class UnitConverter {
 
     public static double dollarsToEuros(double dollars) {
         return dollars * DOLLAR_TO_EURO_RATE;
+    }
+
+
+    enum Unit {
+        CELSIUS, FAHRENHEIT, EURO, DOLLAR
+    }
+
+    @FunctionalInterface
+    interface ConversionFunction {
+        double convert(double value);
+
+    }
+
+    public record DoubleUnit(Double value, Unit unit) {
+        @Override
+        public String toString() {
+            return String.format("%.3f (%s)", value, unit);
+        }
+    }
+
+    enum Conversion {
+        CELSIUS_TO_FAHRENHEIT(Unit.CELSIUS, Unit.FAHRENHEIT, UnitConverter::celsiusToFahrenheit),
+        FAHRENHEIT_TO_CELSIUS(Unit.FAHRENHEIT, Unit.CELSIUS, UnitConverter::fahrenheitToCelsius),
+        EURO_TO_DOLLAR(Unit.EURO, Unit.DOLLAR, UnitConverter::eurosToDollars),
+        DOLLAR_TO_EURO(Unit.DOLLAR, Unit.EURO, UnitConverter::dollarsToEuros);
+
+        private final Unit from;
+        private final Unit to;
+        private final ConversionFunction conversionFunction;
+
+        Conversion(Unit from, Unit to, ConversionFunction conversionFunction) {
+            this.from = from;
+            this.to = to;
+            this.conversionFunction = conversionFunction;
+        }
+
+        public double convert(double value) {
+            return conversionFunction.convert(value);
+        }
     }
 }
