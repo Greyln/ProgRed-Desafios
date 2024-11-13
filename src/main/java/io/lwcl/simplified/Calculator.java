@@ -1,4 +1,5 @@
 package io.lwcl.simplified;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package io.lwcl.challenges;
+package io.lwcl.simplified;
 
 import java.util.Scanner;
 
@@ -17,14 +17,14 @@ public class CreditCardValidator {
      */
 
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
-            String cardNumber = getCardNumber(scanner);
+        Scanner scanner = new Scanner(System.in);
 
-            if (isCardNumberValid(cardNumber)) {
-                validateCard(cardNumber);
-            } else {
-                out.println("El numero de tarjeta de credito debe contener solo digitos.");
-            }
+        String cardNumber = getCardNumber(scanner);
+
+        if (isCardNumberValid(cardNumber)) {
+            validateCard(cardNumber);
+        } else {
+            out.println("El numero de tarjeta de credito debe contener solo digitos.");
         }
     }
 
@@ -38,17 +38,14 @@ public class CreditCardValidator {
     }
 
     private static void validateCard(String cardNumber) {
-        if (LuhnAlgorithm.isValid(cardNumber)) {
+        if (isLuhnValid(cardNumber)) {
             out.println("El numero de tarjeta de credito es valido.");
         } else {
             out.println("El numero de tarjeta de credito no es valido.");
         }
     }
-}
 
-interface LuhnAlgorithm {
-
-    static boolean isValid(String number) {
+    public static boolean isLuhnValid(String number) {
         int sum = 0;
         boolean alter = false;
 

@@ -1,5 +1,4 @@
 package io.lwcl.challenges;
-import io.lwcl.utils.AnsiColor;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -20,6 +19,7 @@ public class GuessingGame {
 
     private static final int MIN_NUMBER = 1;
     private static final int MAX_NUMBER = 100;
+    private static final Random random = new Random();
 
     public static void main(String[] args) {
         int randomNumber = generateRandomNumber();
@@ -27,7 +27,6 @@ public class GuessingGame {
     }
 
     private static int generateRandomNumber() {
-        Random random = new Random();
         return random.nextInt(MAX_NUMBER) + MIN_NUMBER; // Genera un número entre 1 y 100
     }
 

@@ -54,7 +54,7 @@ class Game {
                 board.placeMove(row, col, currentPlayer);
                 break;
             } else {
-                out.println("Movimiento inválido, intente de nuevo.");
+                out.println("Movimiento invalido, intente de nuevo.");
             }
         }
     }

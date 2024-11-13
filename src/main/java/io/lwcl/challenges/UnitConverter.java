@@ -30,13 +30,13 @@ public class UnitConverter {
     }
 
     private static int getConversionOption(Scanner scanner) {
-        out.println("Seleccione una conversión:");
+        out.println("Seleccione una conversion:");
         out.println(" [1]. Celsius a Fahrenheit");
         out.println(" [2]. Fahrenheit a Celsius");
-        out.println(" [3]. Euros a Dólares");
-        out.println(" [4]. Dólares a Euros");
+        out.println(" [3]. Euros a Dolares");
+        out.println(" [4]. Dolares a Euros");
 
-        out.print("Ingrese el número de la conversión que desea realizar: ");
+        out.print("Ingrese el numero de la conversion que desea realizar: ");
         return scanner.nextInt();
     }
 
@@ -50,7 +50,7 @@ public class UnitConverter {
             case 1 -> "Celsius";
             case 2 -> "Fahrenheit";
             case 3 -> "Euros";
-            case 4 -> "Dólares";
+            case 4 -> "Dolares";
             default -> "valor";
         };
     }
@@ -61,7 +61,7 @@ public class UnitConverter {
             case 2 -> fahrenheitToCelsius(value);
             case 3 -> eurosToDollars(value);
             case 4 -> dollarsToEuros(value);
-            default -> throw new IllegalArgumentException("Opción no válida.");
+            default -> throw new IllegalArgumentException("Opcion no valida.");
         };
     }
 
@@ -74,13 +74,13 @@ public class UnitConverter {
                 out.printf("%.2f Fahrenheit son %.2f Celsius.%n", value, result);
                 break;
             case 3:
-                out.printf("%.2f Euros son %.2f Dólares.%n", value, result);
+                out.printf("%.2f Euros son %.2f Dolares.%n", value, result);
                 break;
             case 4:
-                out.printf("%.2f Dólares son %.2f Euros.%n", value, result);
+                out.printf("%.2f Dolares son %.2f Euros.%n", value, result);
                 break;
             default:
-                out.println("Opción no válida. Por favor, seleccione una opción entre 1 y 4.");
+                out.println("Opcion no valida. Por favor, seleccione una opcion entre 1 y 4.");
         }
     }
 

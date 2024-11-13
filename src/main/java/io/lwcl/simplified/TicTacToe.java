@@ -1,4 +1,5 @@
 package io.lwcl.simplified;
+
 import java.util.Scanner;
 
 import static java.lang.System.out;
@@ -76,7 +77,7 @@ public class TicTacToe {
                 board[row][col] = currentPlayer;
                 break;
             } else {
-                out.println("Movimiento inválido, intente de nuevo.");
+                out.println("Movimiento invalido, intente de nuevo.");
             }
         }
     }

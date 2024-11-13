@@ -1,4 +1,5 @@
 package io.lwcl.challenges;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -16,6 +17,23 @@ public class Calculator {
         3. Realice la operación seleccionada con los dos números.
         4. Muestre el resultado al usuario.
      */
+
+    public static void main(String[] args) {
+        // Try-with-resource para AutoClose.
+        try (Scanner scanner = new Scanner(System.in)) {
+            out.print("Enter the first number: ");
+            double firstNumber = readNumber(scanner);
+
+            out.print("Enter the second number: ");
+            double secondNumber = readNumber(scanner);
+
+            OperatorType operator = readOperator(scanner);
+
+            double result = perform(operator, firstNumber, secondNumber);
+            out.println("Input: " + firstNumber + " " + operator.getSymbol() + " " + secondNumber);
+            out.println("Result: " + result);
+        }
+    }
 
     enum OperatorType {
         ADD("+"),
@@ -85,23 +103,6 @@ public class Calculator {
             } catch (IllegalArgumentException e) {
                 out.println(e.getMessage());
             }
-        }
-    }
-
-    public static void main(String[] args) {
-        // Try-with-resource para AutoClose.
-        try (Scanner scanner = new Scanner(System.in)) {
-            out.print("Enter the first number: ");
-            double firstNumber = readNumber(scanner);
-
-            out.print("Enter the second number: ");
-            double secondNumber = readNumber(scanner);
-
-            OperatorType operator = readOperator(scanner);
-
-            double result = perform(operator, firstNumber, secondNumber);
-            out.println("Input: " + firstNumber + " " + operator.getSymbol() + " " + secondNumber);
-            out.println("Result: " + result);
         }
     }
 }
