@@ -1,8 +1,11 @@
 package io.lwcl.challenges;
 
+import io.lwcl.utils.Helper;
+
 import java.util.Random;
 import java.util.Scanner;
 
+import static io.lwcl.utils.Helper.getInputInt;
 import static java.lang.System.out;
 
 public class GuessingGame {
@@ -31,51 +34,38 @@ public class GuessingGame {
     }
 
     private static void playGame(int randomNumber) {
-        boolean guessed = false;
 
-        out.println("Bienvenido al juego de adivinanza!");
-        out.println("Se ha generado un numero entre " + MIN_NUMBER + " y " + MAX_NUMBER + ". Intenta adivinarlo.");
+        out.println("Welcome to the guessing game!");
+        out.printf("A number has been generated between (%d and %d). Try guessing it.", MIN_NUMBER, MAX_NUMBER);
+        out.println();
 
         // Try-with-resource para AutoClose.
         try (Scanner scanner = new Scanner(System.in)) {
-            while (!guessed) {
-                int attempt = getUserInput(scanner);
-                guessed = checkGuess(attempt, randomNumber);
-            }
+            int attempt;
+            do {
+                attempt = getAttempt(scanner);
+            } while (!checkGuess(attempt, randomNumber));
         }
     }
 
-    private static int getUserInput(Scanner scanner) {
-        int attempt = 0;
-        boolean validInput = false;
-
-        while (!validInput) {
-            out.print("Introduce tu intento: ");
-            try {
-                attempt = scanner.nextInt();
-                if (attempt < MIN_NUMBER || attempt > MAX_NUMBER) {
-                    out.println("Por favor, introduce un numero entre " + MIN_NUMBER + " y " + MAX_NUMBER + ".");
-                } else {
-                    validInput = true;
-                }
-            } catch (Exception e) {
-                out.println("Entrada invalida. Por favor, introduce un numero.");
-                scanner.next(); // Limpiar el buffer
-            }
+    private static int getAttempt(Scanner scanner) {
+        Integer attempt = null;
+        while (attempt == null) {
+            out.print("Input your guess: ");
+            attempt = getInputInt(scanner, MIN_NUMBER, MAX_NUMBER);
         }
-
         return attempt;
     }
 
     private static boolean checkGuess(int attempt, int randomNumber) {
         if (attempt < randomNumber) {
-            out.println("El numero es mayor. Intenta de nuevo.");
+            out.println("Too high! Try again.");
             return false;
         } else if (attempt > randomNumber) {
-            out.println("El numero es menor. Intenta de nuevo.");
+            out.println("Too low! Try again.");
             return false;
         } else {
-            out.println("Felicidades! Adivinaste el numero: " + randomNumber);
+            out.println("Correct! Congratulations!");
             return true;
         }
     }
