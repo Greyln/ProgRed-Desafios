@@ -2,7 +2,6 @@ package io.lwcl.challenges;
 
 import io.lwcl.utils.Helper;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static java.lang.System.out;
@@ -32,8 +31,40 @@ public class Calculator {
             OperatorType operator = readOperator(scanner);
 
             double result = perform(operator, firstNumber, secondNumber);
-            out.println("Input: " + firstNumber + " " + operator.getSymbol() + " " + secondNumber);
+            out.printf("Input: %f %s %f", firstNumber, operator.getSymbol(), secondNumber);
+            out.println();
             out.println("Result: " + result);
+        }
+    }
+
+    private static Double perform(OperatorType operator, Double first, Double second) {
+        return switch (operator) {
+            case ADD -> first + second;
+            case SUBTRACT -> first - second;
+            case MULTIPLY -> first * second;
+            case DIVIDE -> second == 0.0 ? Double.NaN : first / second;
+            case REMAINDER -> first % second;
+            case POWER -> Math.pow(first, second);
+        };
+    }
+
+    private static double readNumber(Scanner scanner) {
+        while (true) {
+            Double input = Helper.getInputDouble(scanner, null, null);
+            if (input != null) return input;
+        }
+    }
+
+    private static OperatorType readOperator(Scanner scanner) {
+        while (true) {
+            out.println("(ADD(+), SUBTRACT(-), MULTIPLY(*), DIVIDE(/), REMAINDER(%), POWER(^))");
+            out.print("Enter the operator: ");
+            String operatorInput = scanner.next();
+            try {
+                return OperatorType.fromString(operatorInput);
+            } catch (IllegalArgumentException e) {
+                out.println(e.getMessage());
+            }
         }
     }
 
@@ -70,37 +101,6 @@ public class Calculator {
                 }
             }
             throw new IllegalArgumentException("Invalid operator: " + operator);
-        }
-    }
-
-    private static Double perform(OperatorType operator, Double first, Double second) {
-        return switch (operator) {
-            case ADD -> first + second;
-            case SUBTRACT -> first - second;
-            case MULTIPLY -> first * second;
-            case DIVIDE -> second == 0.0 ? Double.NaN : first / second;
-            case REMAINDER -> first % second;
-            case POWER -> Math.pow(first, second);
-        };
-    }
-
-    private static double readNumber(Scanner scanner) {
-        while (true) {
-            Double input = Helper.getInputDouble(scanner, null);
-            if (input != null) return input;
-        }
-    }
-
-    private static OperatorType readOperator(Scanner scanner) {
-        while (true) {
-            out.println("(ADD(+), SUBTRACT(-), MULTIPLY(*), DIVIDE(/), REMAINDER(%), POWER(^))");
-            out.print("Enter the operator: ");
-            String operatorInput = scanner.next();
-            try {
-                return OperatorType.fromString(operatorInput);
-            } catch (IllegalArgumentException e) {
-                out.println(e.getMessage());
-            }
         }
     }
 }
