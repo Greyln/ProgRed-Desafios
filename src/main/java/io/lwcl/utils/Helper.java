@@ -17,10 +17,9 @@ public class Helper {
     }
 
     public static Integer getInputInt(Scanner scanner, Integer minValue, Integer maxValue) {
-        out.print(": ");
         try {
             int value = scanner.nextInt();
-            if (maxValue != null && (value < 1 || value > maxValue)) {
+            if (minValue != null && maxValue != null && (value < minValue || value > maxValue)) {
                 out.printf("Value out of range. Enter a number between %d and %d.", minValue, maxValue);
                 out.println();
                 return null;
@@ -35,7 +34,6 @@ public class Helper {
     }
 
     public static Integer getInputAmount(Scanner scanner, Integer defaultValue, Integer maxValue) {
-        out.print(": ");
         try {
             int value = scanner.nextInt();
             if (maxValue != null && (value < 1 || value > maxValue)) {
@@ -52,14 +50,14 @@ public class Helper {
     }
 
     public static Double getInputDouble(Scanner scanner, Double minValue, Double maxValue) {
-        out.print(": ");
         try {
             double value = scanner.nextDouble();
-            if (maxValue != null && (value < 1 || value > maxValue)) {
-                out.printf("Value out of range. Enter a number between %d and %d.", minValue, maxValue);
-                out.println();
-                return null;
-            }
+            if (minValue != null && maxValue != null && (value < minValue || value > maxValue)) {
+                    out.printf("Value out of range. Enter a number between %d and %d.", minValue, maxValue);
+                    out.println();
+                    return null;
+                }
+
             return value;
         } catch (NoSuchElementException | IllegalArgumentException e) {
             out.println("Invalid entry. Please enter a number.");
