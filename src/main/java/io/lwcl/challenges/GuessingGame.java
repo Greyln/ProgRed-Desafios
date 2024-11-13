@@ -28,11 +28,10 @@ public class GuessingGame {
     }
 
     private static int generateRandomNumber() {
-        return random.nextInt(MAX_NUMBER) + MIN_NUMBER; // Genera un número entre 1 y 100
+        return random.nextInt(MAX_NUMBER) + MIN_NUMBER;
     }
 
     private static void playGame(int randomNumber) {
-
         out.println("Welcome to the guessing game!");
         out.printf("A number has been generated between (%d and %d). Try guessing it.", MIN_NUMBER, MAX_NUMBER);
         out.println();
