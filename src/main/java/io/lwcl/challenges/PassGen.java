@@ -67,11 +67,11 @@ public class PassGen {
     public static PasswordConfig getPassCFG(Scanner scanner) {
         PasswordConfig cfg = new PasswordConfig();
 
-        out.printf("Cuantas passwords desea generar? (1-%d)", MAX_AMOUNT);
+        out.printf("Cuantas passwords desea generar? (1-%d): ", MAX_AMOUNT);
         cfg.amount = getInputAmount(scanner, DEFAULT_AMOUNT, MAX_AMOUNT);
         out.println();
 
-        out.printf("Longitud de los caracteres? (1-%d)", MAX_LENGTH);
+        out.printf("Longitud de los caracteres? (1-%d): ", MAX_LENGTH);
         cfg.length = getInputAmount(scanner, DEFAULT_LENGTH, MAX_LENGTH);
         out.println();
 
