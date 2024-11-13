@@ -31,55 +31,11 @@ public class PassGen {
         out.println("Bienvenido al generador de contraseñas.");
 
 
-        int amount = DEFAULT_AMOUNT;
-        out.print("Cuantas contraseñas desea generar? ");
-        try {
-            amount = scanner.nextInt();
-        } catch (NoSuchElementException e) {
-            out.println("Utilizando predeterminado: " + DEFAULT_AMOUNT);
-        }
+        int amount = getInputAmount(scanner, "Cuantas contraseñas desea generar? ", DEFAULT_AMOUNT);
+        int length = getInputAmount(scanner, "Que tamaño de caracteres desea? ", DEFAULT_LENGTH);
 
-        int length = DEFAULT_LENGTH;
-        out.print("Que tamaño de caracteres desea? ");
-        try {
-            length = scanner.nextInt();
-        } catch (NoSuchElementException e) {
-            out.println("Utilizando predeterminado: " + DEFAULT_LENGTH);
-        }
-
-        boolean useMayus = true, useMinus = true;
-        boolean useNumbers = true, useSymbols = true;
-        boolean notAmbiguous = false, notSimilar = false;
-
-        out.print("Desea configurar los tipos de caracteres (S/N)? ");
-        boolean toggleChars = scanner.next().equalsIgnoreCase("S");
-
-        if (toggleChars) {
-            String fs = ":: %s ::%n";
-
-            out.print("Desea incluir mayusculas (S/N)? ");
-            useMayus = scanner.next().equalsIgnoreCase("S");
-
-            out.print("Desea incluir minusculas (S/N)? ");
-            useMinus = scanner.next().equalsIgnoreCase("S");
-
-            out.print("Desea incluir numeros (S/N)? ");
-            useNumbers = scanner.next().equalsIgnoreCase("S");
-
-            out.printf(fs, CHARS_SYMBOLS+CHARS_AMBIGUOUS);
-            out.print("Desea incluir caracteres especiales (S/N)? ");
-            useSymbols = scanner.next().equalsIgnoreCase("S");
-
-            out.printf(fs, CHARS_AMBIGUOUS);
-            out.print("Desea excluir caracteres ambiguos (S/N)? ");
-            notAmbiguous = scanner.next().equalsIgnoreCase("S");
-
-            out.printf(fs, CHARS_SIMILAR);
-            out.print("Desea excluir caracteres similares (S/N)? ");
-            notSimilar = scanner.next().equalsIgnoreCase("S");
-        }
-
-        String chars = getChars(useMayus, useMinus, useNumbers, useSymbols, notAmbiguous, notSimilar);
+        boolean[] charOptions = getCharacterOptions(scanner);
+        String chars = getChars(charOptions[0], charOptions[1], charOptions[2], charOptions[3], charOptions[4], charOptions[5]);
 
         for (int i = 0; i < amount; i++) {
             String password = genPassword(length, chars);
@@ -87,6 +43,50 @@ public class PassGen {
         }
 
         scanner.close();
+    }
+
+    private static boolean getYesNoInput(Scanner scanner, String prompt) {
+        out.print(prompt);
+        return scanner.next().equalsIgnoreCase("S");
+    }
+
+    private static int getInputAmount(Scanner scanner, String prompt, int defaultValue) {
+        out.print(prompt);
+
+        try {
+            return scanner.nextInt();
+        } catch (NoSuchElementException | IllegalArgumentException e) {
+            out.println("Utilizando cantidad predeterminada: " + defaultValue);
+            scanner.nextLine(); // Clear the invalid input
+            return defaultValue;
+        }
+    }
+
+    private static boolean[] getCharacterOptions(Scanner scanner) {
+        boolean[] options = new boolean[6];
+        
+        options[0] = true;
+        options[1] = true;
+        options[2] = true;
+        options[3] = true;
+        options[4] = false;
+        options[5] = false;
+
+        out.print("Desea configurar los tipos de caracteres (S/N)? ");
+        boolean toggleChars = scanner.next().equalsIgnoreCase("S");
+
+        if (toggleChars) {
+            options[0] = getYesNoInput(scanner, "Desea incluir mayusculas (S/N)? ");
+            options[1] = getYesNoInput(scanner, "Desea incluir minusculas (S/N)? ");
+            options[2] = getYesNoInput(scanner, "Desea incluir numeros (S/N)? ");
+            out.println("Especiales: " + CHARS_SYMBOLS + CHARS_AMBIGUOUS);
+            options[3] = getYesNoInput(scanner, "Desea incluir caracteres especiales (S/N)? ");
+            out.println("Ambiguos: " + CHARS_AMBIGUOUS);
+            options[4] = getYesNoInput(scanner, "Desea excluir caracteres ambiguos (S/N)? ");
+            out.println("Similares: " + CHARS_SIMILAR);
+            options[5] = getYesNoInput(scanner, "Desea excluir caracteres similares (S/N)? ");
+        }
+        return options;
     }
 
     public static String getChars(boolean upperCase, boolean lowerCase, boolean numbers, boolean symbols, boolean notAmbiguous, boolean notSimilar) {
@@ -99,6 +99,7 @@ public class PassGen {
             chars.append(CHARS_SYMBOLS);
             if (!notAmbiguous) chars.append(CHARS_AMBIGUOUS);
         }
+
         String result = chars.toString();
 
         if (notSimilar) {
@@ -107,15 +108,15 @@ public class PassGen {
         return result;
     }
 
-    private static String genPassword(int length, String chars) {
+    public static String genPassword(int length, String chars) {
         SecureRandom random = new SecureRandom();
         StringBuilder password = new StringBuilder(length);
 
-        for (int i = 0; i < length; i++) {
+        for (int i = 0 ; i < length; i++) {
             int index = random.nextInt(chars.length());
             password.append(chars.charAt(index));
         }
-
         return password.toString();
+
     }
 }
