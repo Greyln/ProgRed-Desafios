@@ -1,0 +1,60 @@
+calculator:
+  index: 1
+  first: "Enter the first number: "
+  second: "Enter the second number: "
+  operator: "Enter the operator: "
+  input: "Input: %f %s %f"
+  result: "Result: "
+
+guessing:
+  index: 2
+  welcome: "Welcome to the guessing game!"
+  instruction: "A number has been generated between (%d and %d). Try guessing it."
+  input: "Input your guess: "
+  attempts: "Attempts left: %d"
+  too_high: "Too high! Try again."
+  too_low: "Too low! Try again."
+  correct: "Correct! Congratulations!"
+
+unit_convert:
+  index: 3
+  select: "Select a conversion type:"
+  from_to: "%s to %s"
+  option: "Input the option you want to perform: "
+  input: "Input the value in (%s): "
+  result: "%s are %s"
+
+credit_card_validator:
+  index: 4
+  card_number: "Enter the credit card number: "
+  valid_card_number: "Valid credit card number."
+  invalid_card_number: "Invalid credit card number."
+  only_numbers: "The credit card number must only contain digits."
+
+tictactoe:
+  index: 5
+
+passgen:
+  index: 6
+
+readwrite:
+  index: 7
+
+bankqueue:
+  index: 8
+
+hangman:
+  index: 9
+
+datetime_converter:
+  index: 10
+
+error:
+  entry:
+    invalid_number: "Invalid entry. Please enter a number."
+    invalid_amount_default: "Invalid entry. Using default amount: "
+
+    invalid_range: "Value out of range. Enter a number between %d and %d."
+    invalid_range_default: "Value out of range. Using default amount: "
+
+    invalid_operator: "Invalid operator: "
