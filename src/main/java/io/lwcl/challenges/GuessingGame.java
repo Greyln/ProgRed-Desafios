@@ -1,7 +1,5 @@
 package io.lwcl.challenges;
 
-import io.lwcl.utils.Helper;
-
 import java.util.Random;
 import java.util.Scanner;
 
@@ -41,23 +39,17 @@ public class GuessingGame {
 
         // Try-with-resource para AutoClose.
         try (Scanner scanner = new Scanner(System.in)) {
-            int attempt;
+            Integer attempt;
             do {
-                attempt = getAttempt(scanner);
+                out.print("Input your guess: ");
+                attempt = getInputInt(scanner, MIN_NUMBER, MAX_NUMBER);
             } while (!checkGuess(attempt, randomNumber));
         }
     }
 
-    private static int getAttempt(Scanner scanner) {
-        Integer attempt = null;
-        while (attempt == null) {
-            out.print("Input your guess: ");
-            attempt = getInputInt(scanner, MIN_NUMBER, MAX_NUMBER);
-        }
-        return attempt;
-    }
+    private static boolean checkGuess(Integer attempt, int randomNumber) {
+        if (attempt == null) return false;
 
-    private static boolean checkGuess(int attempt, int randomNumber) {
         if (attempt < randomNumber) {
             out.println("Too high! Try again.");
             return false;
