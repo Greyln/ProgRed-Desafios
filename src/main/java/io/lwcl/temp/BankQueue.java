@@ -1,4 +1,4 @@
-package io.lwcl.challenges;
+package io.lwcl.temp;
 
 public class BankQueue {
 
