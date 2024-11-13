@@ -1,6 +1,6 @@
 package io.lwcl.utils;
 
-enum AnsiColor {
+public enum AnsiColor {
 
     // Reset
     RESET("\033[0m"),
