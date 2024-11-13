@@ -2,6 +2,8 @@ package io.lwcl.challenges;
 
 import java.util.Scanner;
 
+import static java.lang.System.out;
+
 public class UnitConverter {
 
     /* Desafío 3: Conversión de unidades
@@ -28,18 +30,18 @@ public class UnitConverter {
     }
 
     private static int getConversionOption(Scanner scanner) {
-        System.out.println("Seleccione una conversión:");
-        System.out.println(" [1]. Celsius a Fahrenheit");
-        System.out.println(" [2]. Fahrenheit a Celsius");
-        System.out.println(" [3]. Euros a Dólares");
-        System.out.println(" [4]. Dólares a Euros");
+        out.println("Seleccione una conversión:");
+        out.println(" [1]. Celsius a Fahrenheit");
+        out.println(" [2]. Fahrenheit a Celsius");
+        out.println(" [3]. Euros a Dólares");
+        out.println(" [4]. Dólares a Euros");
 
-        System.out.print("Ingrese el número de la conversión que desea realizar: ");
+        out.print("Ingrese el número de la conversión que desea realizar: ");
         return scanner.nextInt();
     }
 
     private static double getValue(Scanner scanner, int option) {
-        System.out.print("Ingrese el valor en " + getUnitName(option) + ": ");
+        out.print("Ingrese el valor en " + getUnitName(option) + ": ");
         return scanner.nextDouble();
     }
 
@@ -66,19 +68,19 @@ public class UnitConverter {
     private static void displayResult(int option, double value, double result) {
         switch (option) {
             case 1:
-                System.out.printf("%.2f Celsius son %.2f Fahrenheit.%n", value, result);
+                out.printf("%.2f Celsius son %.2f Fahrenheit.%n", value, result);
                 break;
             case 2:
-                System.out.printf("%.2f Fahrenheit son %.2f Celsius.%n", value, result);
+                out.printf("%.2f Fahrenheit son %.2f Celsius.%n", value, result);
                 break;
             case 3:
-                System.out.printf("%.2f Euros son %.2f Dólares.%n", value, result);
+                out.printf("%.2f Euros son %.2f Dólares.%n", value, result);
                 break;
             case 4:
-                System.out.printf("%.2f Dólares son %.2f Euros.%n", value, result);
+                out.printf("%.2f Dólares son %.2f Euros.%n", value, result);
                 break;
             default:
-                System.out.println("Opción no válida. Por favor, seleccione una opción entre 1 y 4.");
+                out.println("Opción no válida. Por favor, seleccione una opción entre 1 y 4.");
         }
     }
 

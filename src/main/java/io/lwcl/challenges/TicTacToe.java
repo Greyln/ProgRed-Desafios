@@ -1,6 +1,8 @@
 package io.lwcl.challenges;
 import java.util.Scanner;
 
+import static java.lang.System.out;
+
 public class TicTacToe {
 
     /* Desafío 5: Juego de Ta-Te-Ti
@@ -30,12 +32,12 @@ public class TicTacToe {
 
             if (isWinner()) {
                 printBoard();
-                System.out.println("¡El jugador " + currentPlayer + " ha ganado!");
+                out.println("¡El jugador " + currentPlayer + " ha ganado!");
                 break;
             }
             if (isBoardFull()) {
                 printBoard();
-                System.out.println("¡Es un empate!");
+                out.println("¡Es un empate!");
                 break;
             }
             switchPlayer();
@@ -53,14 +55,14 @@ public class TicTacToe {
 
 
     private static void printBoard() {
-        System.out.println("Tablero de juego:");
+        out.println("Tablero de juego:");
         for (int i = 0; i < 3; i++) {
-            System.out.print(" | ");
+            out.print(" | ");
             for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j] + " | ");
+                out.print(board[i][j] + " | ");
             }
-            System.out.println();
-            System.out.println("-------------");
+            out.println();
+            out.println("-------------");
         }
     }
 
@@ -68,7 +70,7 @@ public class TicTacToe {
         int row, col;
 
         while (true) {
-            System.out.print("Jugador " + currentPlayer + ", ingrese su movimiento (fila y columna): ");
+            out.print("Jugador " + currentPlayer + ", ingrese su movimiento (fila y columna): ");
             row = scanner.nextInt() - 1; // Convertir a índice 0
             col = scanner.nextInt() - 1; // Convertir a índice 0
 
@@ -76,7 +78,7 @@ public class TicTacToe {
                 board[row][col] = currentPlayer;
                 break;
             } else {
-                System.out.println("Movimiento inválido, intente de nuevo.");
+                out.println("Movimiento inválido, intente de nuevo.");
             }
         }
     }

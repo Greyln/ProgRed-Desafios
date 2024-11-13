@@ -4,6 +4,8 @@ import io.lwcl.utils.AnsiColor;
 import java.util.Random;
 import java.util.Scanner;
 
+import static java.lang.System.out;
+
 public class GuessingGame {
 
     /* Desafío 2: Juego de adivinanza
@@ -32,8 +34,8 @@ public class GuessingGame {
     private static void playGame(int randomNumber) {
         boolean guessed = false;
 
-        System.out.println("Bienvenido al juego de adivinanza!");
-        System.out.println("Se ha generado un numero entre " + MIN_NUMBER + " y " + MAX_NUMBER + ". Intenta adivinarlo.");
+        out.println("Bienvenido al juego de adivinanza!");
+        out.println("Se ha generado un numero entre " + MIN_NUMBER + " y " + MAX_NUMBER + ". Intenta adivinarlo.");
 
         // Try-with-resource para AutoClose.
         try (Scanner scanner = new Scanner(System.in)) {
@@ -49,16 +51,16 @@ public class GuessingGame {
         boolean validInput = false;
 
         while (!validInput) {
-            System.out.print("Introduce tu intento: ");
+            out.print("Introduce tu intento: ");
             try {
                 attempt = scanner.nextInt();
                 if (attempt < MIN_NUMBER || attempt > MAX_NUMBER) {
-                    System.out.println("Por favor, introduce un numero entre " + MIN_NUMBER + " y " + MAX_NUMBER + ".");
+                    out.println("Por favor, introduce un numero entre " + MIN_NUMBER + " y " + MAX_NUMBER + ".");
                 } else {
                     validInput = true;
                 }
             } catch (Exception e) {
-                System.out.println("Entrada invalida. Por favor, introduce un numero.");
+                out.println("Entrada invalida. Por favor, introduce un numero.");
                 scanner.next(); // Limpiar el buffer
             }
         }
@@ -68,13 +70,13 @@ public class GuessingGame {
 
     private static boolean checkGuess(int attempt, int randomNumber) {
         if (attempt < randomNumber) {
-            System.out.println("El numero es mayor. Intenta de nuevo.");
+            out.println("El numero es mayor. Intenta de nuevo.");
             return false;
         } else if (attempt > randomNumber) {
-            System.out.println("El numero es menor. Intenta de nuevo.");
+            out.println("El numero es menor. Intenta de nuevo.");
             return false;
         } else {
-            System.out.println(AnsiColor.LIGHT_GREEN + "Felicidades! Adivinaste el numero: " + randomNumber);
+            out.println(AnsiColor.LIGHT_GREEN + "Felicidades! Adivinaste el numero: " + randomNumber);
             return true;
         }
     }

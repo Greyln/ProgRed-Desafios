@@ -2,6 +2,8 @@ package io.lwcl.challenges;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static java.lang.System.out;
+
 public class Calculator {
 
     /* Desafío 1: Calculadora básica
@@ -67,7 +69,7 @@ public class Calculator {
             try {
                 return scanner.nextDouble();
             } catch (InputMismatchException e) {
-                System.out.println("Invalid number. Please enter a valid number.");
+                out.println("Invalid number. Please enter a valid number.");
                 scanner.next(); // Clear the invalid input
             }
         }
@@ -75,13 +77,13 @@ public class Calculator {
 
     private static OperatorType readOperator(Scanner scanner) {
         while (true) {
-            System.out.println("(ADD(+), SUBTRACT(-), MULTIPLY(*), DIVIDE(/), REMAINDER(%), POWER(^))");
-            System.out.print("Enter the operator: ");
+            out.println("(ADD(+), SUBTRACT(-), MULTIPLY(*), DIVIDE(/), REMAINDER(%), POWER(^))");
+            out.print("Enter the operator: ");
             String operatorInput = scanner.next();
             try {
                 return OperatorType.fromString(operatorInput);
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                out.println(e.getMessage());
             }
         }
     }
@@ -89,17 +91,17 @@ public class Calculator {
     public static void main(String[] args) {
         // Try-with-resource para AutoClose.
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Enter the first number: ");
+            out.print("Enter the first number: ");
             double firstNumber = readNumber(scanner);
 
-            System.out.print("Enter the second number: ");
+            out.print("Enter the second number: ");
             double secondNumber = readNumber(scanner);
 
             OperatorType operator = readOperator(scanner);
 
             double result = perform(operator, firstNumber, secondNumber);
-            System.out.println("Input: " + firstNumber + " " + operator.getSymbol() + " " + secondNumber);
-            System.out.println("Result: " + result);
+            out.println("Input: " + firstNumber + " " + operator.getSymbol() + " " + secondNumber);
+            out.println("Result: " + result);
         }
     }
 }
