@@ -50,7 +50,7 @@ public enum AnsiColor {
     UNDERLINE("\033[4m"),
     REVERSED("\033[7m");
 
-    private final String code;
+    public final String code;
 
     AnsiColor(String code) {
         this.code = code;
