@@ -32,12 +32,12 @@ public class TicTacToe {
 
             if (isWinner()) {
                 printBoard();
-                out.println("¡El jugador " + currentPlayer + " ha ganado!");
+                out.println("¡Player " + currentPlayer + " has won!");
                 break;
             }
             if (isBoardFull()) {
                 printBoard();
-                out.println("¡Es un empate!");
+                out.println("¡It's a tie!");
                 break;
             }
             switchPlayer();
@@ -54,7 +54,7 @@ public class TicTacToe {
     }
 
     private static void printBoard() {
-        out.println("Tablero de juego:");
+        out.println("Game board:");
         for (int i = 0; i < 3; i++) {
             out.print(" | ");
             for (int j = 0; j < 3; j++) {
@@ -69,7 +69,7 @@ public class TicTacToe {
         int row, col;
 
         while (true) {
-            out.print("Jugador " + currentPlayer + ", ingrese su movimiento (fila y columna): ");
+            out.print("Player " + currentPlayer + ", enter your move (row and column): ");
             row = scanner.nextInt() - 1; // Convertir a índice 0
             col = scanner.nextInt() - 1; // Convertir a índice 0
 
@@ -77,7 +77,7 @@ public class TicTacToe {
                 board[row][col] = currentPlayer;
                 break;
             } else {
-                out.println("Movimiento invalido, intente de nuevo.");
+                out.println("Invalid move, try again.");
             }
         }
     }

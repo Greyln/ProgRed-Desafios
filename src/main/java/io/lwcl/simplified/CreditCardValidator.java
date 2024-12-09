@@ -24,12 +24,12 @@ public class CreditCardValidator {
         if (isCardNumberValid(cardNumber)) {
             validateCard(cardNumber);
         } else {
-            out.println("El numero de tarjeta de credito debe contener solo digitos.");
+            out.println("The credit card number must contain only digits.");
         }
     }
 
     private static String getCardNumber(Scanner scanner) {
-        out.print("Ingrese el numero de tarjeta de credito: ");
+        out.print("Enter the credit card number: ");
         return scanner.nextLine().replaceAll("\\s+", ""); // Eliminar espacios en blanco
     }
 
@@ -39,9 +39,9 @@ public class CreditCardValidator {
 
     private static void validateCard(String cardNumber) {
         if (isLuhnValid(cardNumber)) {
-            out.println("El numero de tarjeta de credito es valido.");
+            out.println("The credit card number is valid.");
         } else {
-            out.println("El numero de tarjeta de credito no es valido.");
+            out.println("The credit card number is not valid.");
         }
     }
 
